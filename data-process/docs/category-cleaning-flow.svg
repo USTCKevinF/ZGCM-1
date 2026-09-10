@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2700" height="900" viewBox="0 0 2700 900" role="img" aria-labelledby="title desc">
+  <title id="title">ZGCM-1 Midtrain Cleaning and Mixing Pipeline by Data Type</title>
+  <desc id="desc">Six Midtrain data types first merge into sequential shared normalization and screening, then branch into compact type-specific processing, merge again, and move left to right through shared quality filtering, deduplication, token-length bucketing, mixture selection, decontamination, indexed materialization, and release validation.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#315B61"/>
+    </marker>
+    <style>
+      .title { font: 700 34px 'PingFang SC','Noto Sans CJK SC',sans-serif; fill: #183B43; }
+      .subtitle { font: 400 17px 'PingFang SC','Noto Sans CJK SC',sans-serif; fill: #5F7377; }
+      .section-title { font: 700 18px 'PingFang SC','Noto Sans CJK SC',sans-serif; fill: #315B61; text-anchor: middle; }
+      .source-label { font: 700 18px 'PingFang SC','Noto Sans CJK SC',sans-serif; fill: #FFFFFF; text-anchor: middle; }
+      .node { font: 500 16px 'PingFang SC','Noto Sans CJK SC',sans-serif; fill: #243D42; text-anchor: middle; }
+      .final-label { font: 700 18px 'PingFang SC','Noto Sans CJK SC',sans-serif; fill: #FFFFFF; text-anchor: middle; }
+      .source { fill: #7F9FA5; }
+      .preprocess { fill: #F4C2DA; stroke: #DFA1BF; stroke-width: 1.5; }
+      .category { fill: #F3CEE0; stroke: #DEA7C1; stroke-width: 1.5; }
+      .common { fill: #EE9CC6; stroke: #D77EAA; stroke-width: 1.5; }
+      .final { fill: #7F9FA5; }
+      .arrow { stroke: #315B61; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .merge { stroke: #315B61; stroke-width: 2.4; fill: none; }
+      .guide { stroke: #E9EFF0; stroke-width: 1.2; }
+    </style>
+  </defs>
+
+  <rect width="2700" height="900" fill="#FFFFFF"/>
+  <text x="45" y="55" class="title">ZGCM-1 Midtrain Cleaning and Mixing Pipeline by Data Type</text>
+  <text x="45" y="88" class="subtitle">Shared preprocessing, type-specific cleaning, and unified construction of a training-ready mixture</text>
+
+  <text x="520" y="355" class="section-title">Shared Preprocessing</text>
+  <text x="995" y="132" class="section-title">Type-specific Cleaning</text>
+  <text x="1875" y="355" class="section-title">Unified Processing</text>
+
+  <line x1="35" y1="185" x2="1190" y2="185" class="guide"/>
+  <line x1="35" y1="295" x2="1190" y2="295" class="guide"/>
+  <line x1="35" y1="405" x2="1190" y2="405" class="guide"/>
+  <line x1="35" y1="515" x2="1190" y2="515" class="guide"/>
+  <line x1="35" y1="625" x2="1190" y2="625" class="guide"/>
+  <line x1="35" y1="735" x2="1190" y2="735" class="guide"/>
+
+  <!-- data types -->
+  <rect x="35" y="145" width="165" height="80" rx="18" class="source"/><text x="117" y="192" class="source-label">Code</text>
+  <rect x="35" y="255" width="165" height="80" rx="18" class="source"/><text x="117" y="302" class="source-label">Web / Web QA</text>
+  <rect x="35" y="365" width="165" height="80" rx="18" class="source"/><text x="117" y="412" class="source-label">Instruction</text>
+  <rect x="35" y="475" width="165" height="80" rx="18" class="source"/><text x="117" y="522" class="source-label">Agentic</text>
+  <rect x="35" y="585" width="165" height="80" rx="18" class="source"/><text x="117" y="632" class="source-label">Math</text>
+  <rect x="35" y="695" width="165" height="80" rx="18" class="source"/><text x="117" y="742" class="source-label">Reasoning</text>
+
+  <!-- all data types enter the same ordered preprocessing flow -->
+  <path d="M200 185 H230 M200 295 H230 M200 405 H230 M200 515 H230 M200 625 H230 M200 735 H230 M230 185 V735" class="merge"/>
+  <path d="M230 460 H265" class="arrow"/>
+
+  <rect x="270" y="400" width="230" height="120" rx="18" class="preprocess"/>
+  <text x="385" y="451" class="node"><tspan x="385">Normalize fields</tspan><tspan x="385" dy="24">&amp; remove invalid records</tspan></text>
+  <path d="M500 460 H535" class="arrow"/>
+
+  <rect x="540" y="400" width="230" height="120" rx="18" class="preprocess"/>
+  <text x="655" y="439" class="node"><tspan x="655">Record source/license</tspan><tspan x="655" dy="24">metadata &amp; scan</tspan><tspan x="655" dy="24">PII and secrets</tspan></text>
+
+  <!-- branch into type-specific cleaning -->
+  <path d="M770 460 H810 M810 185 V735" class="merge"/>
+
+  <path d="M810 185 H845" class="arrow"/>
+  <rect x="850" y="145" width="290" height="80" rx="16" class="category"/>
+  <text x="995" y="192" class="node">Classify &amp; filter source files</text>
+
+  <path d="M810 295 H845" class="arrow"/>
+  <rect x="850" y="255" width="290" height="80" rx="16" class="category"/>
+  <text x="995" y="302" class="node">Extract &amp; clean text / QA</text>
+
+  <path d="M810 405 H845" class="arrow"/>
+  <rect x="850" y="365" width="290" height="80" rx="16" class="category"/>
+  <text x="995" y="412" class="node">Parse &amp; filter conversations</text>
+
+  <path d="M810 515 H845" class="arrow"/>
+  <rect x="850" y="475" width="290" height="80" rx="16" class="category"/>
+  <text x="995" y="522" class="node">Validate tool-use trajectories</text>
+
+  <path d="M810 625 H845" class="arrow"/>
+  <rect x="850" y="585" width="290" height="80" rx="16" class="category"/>
+  <text x="995" y="632" class="node">Validate problems &amp; solutions</text>
+
+  <path d="M810 735 H845" class="arrow"/>
+  <rect x="850" y="695" width="290" height="80" rx="16" class="category"/>
+  <text x="995" y="742" class="node">Validate reasoning &amp; answers</text>
+
+  <!-- type-specific outputs rejoin the common pipeline -->
+  <path d="M1140 185 H1180 M1140 295 H1180 M1140 405 H1180 M1140 515 H1180 M1140 625 H1180 M1140 735 H1180 M1180 185 V735" class="merge"/>
+  <path d="M1180 460 H1215" class="arrow"/>
+
+  <!-- unified horizontal processing -->
+  <rect x="1220" y="400" width="210" height="120" rx="18" class="common"/>
+  <text x="1325" y="451" class="node"><tspan x="1325">Apply quality filters</tspan><tspan x="1325" dy="24">&amp; deduplicate</tspan></text>
+  <path d="M1430 460 H1465" class="arrow"/>
+
+  <rect x="1470" y="400" width="190" height="120" rx="18" class="common"/>
+  <text x="1565" y="451" class="node"><tspan x="1565">Tokenize &amp; bucket</tspan><tspan x="1565" dy="24">by length</tspan></text>
+  <path d="M1660 460 H1695" class="arrow"/>
+
+  <rect x="1700" y="400" width="190" height="120" rx="18" class="common"/>
+  <text x="1795" y="451" class="node"><tspan x="1795">Allocate mix quotas</tspan><tspan x="1795" dy="24">&amp; sample</tspan></text>
+  <path d="M1890 460 H1925" class="arrow"/>
+
+  <rect x="1930" y="400" width="190" height="120" rx="18" class="common"/>
+  <text x="2025" y="451" class="node"><tspan x="2025">Remove evaluation-</tspan><tspan x="2025" dy="24">set overlap</tspan></text>
+  <path d="M2120 460 H2155" class="arrow"/>
+
+  <rect x="2160" y="400" width="230" height="120" rx="18" class="common"/>
+  <text x="2275" y="451" class="node"><tspan x="2275">Build indexed shards</tspan><tspan x="2275" dy="24">&amp; validate release</tspan></text>
+  <path d="M2390 460 H2425" class="arrow"/>
+
+  <rect x="2430" y="400" width="200" height="120" rx="20" class="final"/>
+  <text x="2530" y="438" class="final-label"><tspan x="2530">Training-ready</tspan><tspan x="2530" dy="24">ZGCM-1 Midtrain</tspan><tspan x="2530" dy="24">Mix</tspan></text>
+
+  <text x="45" y="850" class="subtitle">Dataset-specific repairs and one-off recovery logic remain in adapters and are omitted here.</text>
+</svg>

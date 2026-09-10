@@ -1,0 +1,2 @@
+{"id":"demo-1","source":"demo","instruction":"Explain why exact deduplication is useful.","output":"Exact deduplication prevents identical training examples from being counted repeatedly."}
+{"id":"demo-2","source":"demo","instruction":"Summarize the result.","output":""}

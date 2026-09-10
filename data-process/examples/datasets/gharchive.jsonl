@@ -1,0 +1,2 @@
+{"id":"repo-file-1","source":"gharchive","path":"src/example.py","text":"def add(left, right):\n    return left + right\n"}
+{"id":"repo-file-2","source":"gharchive","path":"vendor/example.py","text":"def vendored_copy():\n    return True\n"}

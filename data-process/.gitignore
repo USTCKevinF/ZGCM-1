@@ -1,0 +1,24 @@
+# Local environments and Python bytecode
+.venv/
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# CLI outputs and local smoke-test artifacts
+*.cleaned.jsonl
+*.summary.json
+*.manifest.json
+.coverage
+.pytest_cache/
+
+# Generated presentation/inspection artifacts; keep public Markdown/SVG docs only.
+docs/*.pptx
+docs/*.inspect.ndjson
+docs/editable_ppt_render*/
+docs/pretrain_midtrain_pipelines*/
+docs/rendered_ppt/
+
+# Internal planning/assessment notes are not part of the public package.
+docs/processing_scripts_20260828_assessment.md
+docs/script_migration_map.md
+docs/stage_script_consolidation_plan.md

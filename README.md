@@ -1,8 +1,7 @@
 <div align="center">
+<img src="assets/zgcm1-logo.png" width="480" alt="ZGCM-1">
 
-# ZGCM-1
-
-**An Open 7B Foundation Model for Math and Agentic Search**
+**A Fully Open and Extremely Efficient Foundation Model for Math and Agentic Search**
 
 Zhongguancun Academy · Zhongguancun Institute of Artificial Intelligence
 
@@ -29,7 +28,6 @@ The project brings together an efficient hybrid-attention architecture, FP8 trai
 
 ![ZGCM-1 overview: benchmark performance and key technical components](assets/zgcm-1-overview.png)
 
-*ZGCM-1 overview from Figure 2 of the technical report.*
 
 ## Highlights
 
@@ -46,7 +44,6 @@ The following results are from the technical report, using the **256K SFT checkp
 
 ![ZGCM-1 per-benchmark ranks across 14 reasoning benchmarks compared with six other 7B–8B models](assets/zgcm-1-reasoning-ranks.png)
 
-*Reasoning benchmark ranks from Figure 1 of the technical report. Lower is better; tied scores share the minimum rank. Qwen3-8B-Distill denotes DeepSeek-R1-0528-Qwen3-8B.*
 
 | Benchmark (%) | ZGCM-1 | DeepSeek-R1-0528-Qwen3-8B | MiniCPM4.1-8B | Qwen3-8B | Olmo 3 7B Think |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -74,7 +71,6 @@ The following results are from the technical report, using the **256K SFT checkp
 
 ![ZGCM-1 hybrid attention architecture with gated sliding-window GQA and global attention](assets/zgcm-1-architecture.png)
 
-*Figure 3 from the technical report. Five blocks of five local layers and one global layer are followed by two additional local layers.*
 
 | Model specification | ZGCM-1 |
 | --- | --- |

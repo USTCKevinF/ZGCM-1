@@ -16,6 +16,8 @@ Zhongguancun Academy · Zhongguancun Institute of Artificial Intelligence
   <a href="#evaluation-results">📊 Results</a>
   &nbsp;·&nbsp;
   <a href="#getting-started"><img src="assets/icons/github.svg" width="18" height="18" alt=""> Training Code</a>
+  &nbsp;·&nbsp;
+  <a href="#wechat-community">💬 WeChat Community</a>
 </p>
 
 </div>
@@ -110,6 +112,18 @@ Choose the workflow you want to reproduce and follow its setup instructions. Eac
 | [`rl/`](rl/) | Reinforcement learning | [`rl/README.md`](rl/README.md) |
 
 Enter the relevant directory and follow its README to prepare the environment, data, tokenizer, and checkpoints, then launch the workflow with the provided configuration.
+
+## WeChat Community
+
+Scan the QR code to join the ZGCM-1 community group. Click the image to open it
+at full size. If the code has expired, open an Issue and ask the maintainers for
+the latest one.
+
+<p align="center">
+  <a href="assets/zgcm-1-wechat-group-1.jpg?v=3526385e">
+    <img src="assets/zgcm-1-wechat-group-1.jpg?v=3526385e" width="360" alt="ZGCM-1 WeChat Group 1 QR code">
+  </a>
+</p>
 
 ## License
 

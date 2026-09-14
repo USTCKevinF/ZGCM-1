@@ -6,8 +6,7 @@
 Zhongguancun Academy · Zhongguancun Institute of Artificial Intelligence
 
 <p align="center">
-  <!-- Replace # with the public technical report URL when available. -->
-  <a href="#">📄 Tech Report</a>
+  <a href="zgcm-1-tech-report.pdf">📄 Tech Report</a>
   &nbsp;·&nbsp;
   <a href="https://huggingface.co/zgcagi/ZGCM-1-7B"><img src="assets/icons/huggingface.svg" width="18" height="18" alt=""> Model</a>
   &nbsp;·&nbsp;

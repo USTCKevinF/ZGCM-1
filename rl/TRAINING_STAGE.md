@@ -1,37 +1,50 @@
-# 强化学习
+# Reinforcement Learning
 
-ZGCM-1 在数学、代码和通用能力任务上探索混合强化学习，采用 GRPO。
-训练先根据初始策略的 rollout 估计题目难度，再通过领域对应的奖励和
-动态采样提供学习信号。本目录包含发布模型最终数学 GRPO 阶段
-的完整配置、奖励实现和训练入口；训练框架为
-[AReaL](https://github.com/areal-project/AReaL) v2.0.0。
+ZGCM-1 explores mixed reinforcement learning on mathematics, code, and
+general-capability tasks using GRPO. Training first estimates prompt
+difficulty from initial-policy rollouts, then provides learning signals
+through domain-specific rewards and dynamic sampling. This directory contains
+the complete configuration, reward implementations, and training entry for the
+final math GRPO stage of the released model; the training framework is
+[AReaL](https://github.com/areal-project/AReaL) v2.0.0.
 
-数学使用二值答案正确性奖励（`</think>` 后提取可见答案，math-verify
-双向等价判定，precision=6、单次超时 8 秒），代码使用可执行测试通过
-比例（隔离沙箱内执行，仅经 HTTP 访问），通用任务使用正确性或指令遵循
-标准（指令遵循为 Open-Instruct IFEvalG 检查器满足比例）。三个域的
-奖励实现均在本目录 `rewards/` 中发布。
+Mathematics uses a binary answer-correctness reward (the visible answer is
+extracted after `</think>` and judged with math-verify bidirectional
+equivalence, `precision=6`, 8-second per-call timeout). Code uses the fraction
+of executable tests passed (execution happens inside an isolated sandbox,
+reached only over HTTP). General tasks use correctness or instruction-following
+criteria (instruction following is the fraction of Open-Instruct IFEvalG
+checkers satisfied). The reward implementations for all three domains are
+released in `rewards/` in this directory.
 
-**正确项长度惩罚**：仅对回答正确的样本，按生成 token 数线性施加
+**Correct-only length penalty**: applied linearly over generated tokens, only
+to samples that are answered correctly:
 
 ```
 penalty = 0.05 × clip((n_out − 16384) / (65536 − 16384), 0, 1)
 r       = r_raw × (1 − penalty)
 ```
 
-即从 16,384 token 起线性增长、65,536 上限时最多扣 0.05（满分正确答案
-最低得 0.95）；被长度上限截断的回答奖励为 0；评测阶段不施加惩罚。
-**动态采样**按原始二值正确率过滤：组内 8 个回答全对/全错、奖励越界、
-非有限或组内最长序列超过 69,632 的整组丢弃。
+The penalty ramps linearly from 16,384 tokens up to the 65,536 cap, where it
+deducts at most 0.05 (a fully correct answer at the cap scores 0.95).
+Responses truncated by the length cap receive reward 0, and evaluation runs
+apply no penalty. **Dynamic sampling** filters on raw binary correctness: an
+entire group is discarded when its 8 responses are all-correct or all-wrong,
+when any reward is out of range or non-finite, or when the longest trajectory
+in the group exceeds 69,632 tokens.
 
-最终阶段采样规模为每步 384 道题、每题 8 个回答（共 3,072 条轨迹），
-temperature 1.0、top-p 1.0；Adam 优化器 lr `1e-6` constant（3% warmup）、
-weight decay 0.01、梯度裁剪 1.0；`eps_clip=0.2`（token 级重要性采样）、
-组内奖励归一化 + batch 级优势归一化、每次更新 12 个 minibatch；
-无 critic / 参考策略（`kl_ctl=0`）。最大生成长度为 65,536 tokens，
-总上下文为 98,304 tokens，prompt 上限 4,096 tokens；训练 177 步 / 3 epoch，
-每 10 步以 8 采样做一次原始正确率评测。技术报告 4.2 节
-描述的早期实验还探索了更大的响应组规模（lr `2e-6`）与参考策略 KL 变体。
+The final stage samples 384 prompts × 8 responses per step (3,072
+trajectories) at temperature 1.0, top-p 1.0. The Adam optimizer uses
+lr `1e-6` constant (3% warmup), weight decay 0.01, and grad clip 1.0;
+`eps_clip=0.2` (token-level importance sampling) with group reward
+normalization plus batch-level advantage normalization and 12 minibatches per
+update; there is no critic or reference policy (`kl_ctl=0`). The maximum
+generation length is 65,536 tokens within a 98,304-token total context, with
+prompts capped at 4,096 tokens; training runs 177 steps / 3 epochs, with a raw
+correctness evaluation on 8 samples every 10 steps. The earlier experiments
+described in Section 4.2 of the technical report also explored a larger
+response-group scale (lr `2e-6`) and a reference-policy KL variant.
 
-方法和参数见技术报告第 4.2 节，配置、奖励与训练脚本见本目录
-[README](README.md)、[configs/](configs/) 与 [train/](train/)。
+See Section 4.2 of the technical report for the method and parameters, and
+[README](README.md), [configs/](configs/), and [train/](train/) in this
+directory for the configuration, rewards, and training scripts.

@@ -1,4 +1,4 @@
-# ZGCM-1 final math GRPO stage (after DPO), length-shaped reward recipe.
+# ZGCM-1 final math GRPO stage, length-shaped reward recipe.
 #
 # Required environment variables:
 #   ZGCM_MODEL_PATH   path to the HF checkpoint of the policy (with tokenizer)

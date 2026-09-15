@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """ZGCM-1 math GRPO with correct-only length shaping and exact-version evals.
 
-This is the training entry used for the final math GRPO stage of ZGCM-1
-(after the DPO stage). It implements:
+This is the training entry used for the final math GRPO stage of ZGCM-1.
+It implements:
 
 - a binary math verifier reward (see ``rewards/math_reward.py``);
 - a linear, correct-only length penalty on generated tokens;

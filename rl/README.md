@@ -4,9 +4,9 @@ ZGCM-1 explores mixed reinforcement learning on mathematics, code, and
 general-capability tasks using **Group Relative Policy Optimization (GRPO)**.
 The recipe follows Section 4.2 of the technical report, and this directory
 contains the exact configuration, reward implementation, and training entry
-used for the final math GRPO stage of the released model (run after the DPO
-stage), together with the code and instruction-following reward
-implementations used by the mixed-RL experiments. The training framework is
+used for the final math GRPO stage of the released model, together with the
+code and instruction-following reward implementations used by the mixed-RL
+experiments. The training framework is
 [AReaL](https://github.com/areal-project/AReaL)
 v2.0.0; see [Environment](ENVIRONMENT.md).
 

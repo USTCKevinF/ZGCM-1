@@ -6,7 +6,7 @@
 Zhongguancun Academy · Zhongguancun Institute of Artificial Intelligence
 
 <p align="center">
-  <a href="zgcm-1-tech-report.pdf">📄 Tech Report</a>
+  <a href="https://arxiv.org/abs/2609.13356">📄 Tech Report</a>
   &nbsp;·&nbsp;
   <a href="https://huggingface.co/zgcagi/ZGCM-1-7B"><img src="assets/icons/huggingface.svg" width="18" height="18" alt=""> Model</a>
   &nbsp;·&nbsp;
@@ -127,3 +127,19 @@ the latest one.
 ## License
 
 The repository is distributed under the [MIT License](LICENSE). See the stage directories for bundled third-party licenses and notices, and the model and dataset cards for their respective terms.
+
+## Citation
+
+If you find ZGCM-1 useful in your research, please cite our technical report:
+
+```bibtex
+@misc{zgcm1,
+  title={ZGCM-1: A Fully Open and Extremely Efficient Foundation Model for Math and Agentic Search},
+  author={Jiyan He and Guang Liang and Hao Liu and Haoxiang Guan and Jinbo Sun and Junyi Guo and Wenjun Feng and Yantai Xie and Yifei Shen and Bin Shao and Chuyang Wei and Kai Chen and Kexin Zhou and Minghang Zhu and Shuxin Zheng and Tie-Yan Liu and Taine Zhao and Wenhui Zhu and Xueyin Xu and Xiaoqing Zhang and Yatao Li and Yuxuan Ren},
+  year={2026},
+  eprint={2609.13356},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI},
+  url={https://arxiv.org/abs/2609.13356}
+}
+```

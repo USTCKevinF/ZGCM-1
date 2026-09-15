@@ -13,7 +13,7 @@
 
 experiment_name: zgcm1_math_grpo
 trial_name: length_shaped_math_grpo
-seed: 20260723
+seed: 42
 enable_offload: false
 total_train_epochs: 3
 total_train_steps: 177

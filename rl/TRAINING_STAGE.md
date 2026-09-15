@@ -29,8 +29,8 @@ temperature 1.0、top-p 1.0；Adam 优化器 lr `1e-6` constant（3% warmup）�
 weight decay 0.01、梯度裁剪 1.0；`eps_clip=0.2`（token 级重要性采样）、
 组内奖励归一化 + batch 级优势归一化、每次更新 12 个 minibatch；
 无 critic / 参考策略（`kl_ctl=0`）。最大生成长度为 65,536 tokens，
-总上下文为 98,304 tokens，prompt 上限 4,096 tokens；训练 177 步 / 3 epoch /
-seed 20260723，每 10 步以 8 采样做一次原始正确率评测。技术报告 4.2 节
+总上下文为 98,304 tokens，prompt 上限 4,096 tokens；训练 177 步 / 3 epoch，
+每 10 步以 8 采样做一次原始正确率评测。技术报告 4.2 节
 描述的早期实验还探索了更大的响应组规模（lr `2e-6`）与参考策略 KL 变体。
 
 方法和参数见技术报告第 4.2 节，配置、奖励与训练脚本见本目录

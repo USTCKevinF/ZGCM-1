@@ -94,7 +94,7 @@ Final math GRPO stage (`configs/math_grpo_length_shaped.yaml`):
 | Maximum generated response | 65,536 tokens |
 | Total prompt–response context | 98,304 tokens |
 | Maximum prompt length | 4,096 tokens |
-| Steps / epochs / seed | 177 / 3 / 20260723 |
+| Steps / epochs | 177 / 3 |
 | Evaluation | every 10 steps, 8 samples per prompt, raw correctness |
 
 Earlier mixed-RL experiments described in the technical report also explored a

@@ -56,8 +56,84 @@ One JSON object per line:
 ```
 
 `sample_id`, `domain`, `task_type`, `messages`, `answers` are required
-(`domain` must be `math`, `answers` non-empty); `benchmark` is optional and
-only splits evaluation statistics. Prompts must render to at most 4,096 tokens.
+(`domain` must be `math` for the released training entry, `answers` non-empty);
+`benchmark` is optional and only splits evaluation statistics. Prompts must
+render to at most 4,096 tokens.
+
+The reward router (`rewards/rewards.py`) used by the mixed-RL experiments
+additionally accepts two row shapes, for use with a standard AReaL workflow:
+
+```json
+{"sample_id": "code-...", "domain": "code", "task_type": "code",
+ "messages": [...], "answers": [""], "code_asset_hash": "<64 hex>",
+ "prompt_hash": "<64 hex>"}
+```
+
+```json
+{"sample_id": "if-...", "domain": "if", "task_type": "if",
+ "messages": [...], "answers": [""],
+ "ifeval_spec": [{"instruction_id": "language:response_language",
+                  "kwargs": {"language": "en"}}]}
+```
+
+- `domain: "code"` rows select the sandbox reward: `task_type` is `code`
+  (function-call tests) or `code_stdio` (stdin/stdout comparison), and
+  `code_asset_hash` names a content-addressed test asset (see below).
+- `domain: "if"` rows select the IFEvalG reward: `ifeval_spec` lists the
+  instruction ids and kwargs checked against the visible answer.
+
+### Code sandbox
+
+Code rewards are always computed by an isolated service reached over HTTP;
+training never executes model output in-process. Test assets live under a
+root directory as `<root>/<hash[:2]>/<hash>.json.gz`, where each file is a
+JSON test list whose SHA-256 equals its own file name, plus a top-level
+`manifest.json`.
+
+The reference server (`rewards/sandbox_server.py`, requires root) executes
+each candidate inside a user/network/PID namespace and a read-only tmpfs
+chroot with per-test rlimits, attests itself at startup, and fails closed if
+any isolation property is missing:
+
+```bash
+cd rl
+export ZGCM_CODE_SANDBOX_TOKEN=<random string, at least 32 chars>
+python -m rewards.sandbox_server --port 8090 \
+    --asset-root /path/to/code_assets \
+    --rootfs /dev/shm/zgcm-code-rootfs --build-rootfs
+```
+
+Point the training-side client at it:
+
+```bash
+export ZGCM_CODE_SANDBOX_MODE=attested-http   # or namespace-http
+export ZGCM_CODE_SANDBOX_URL=http://127.0.0.1:8090
+export ZGCM_CODE_SANDBOX_TOKEN=$ZGCM_CODE_SANDBOX_TOKEN
+export ZGCM_CODE_ASSET_ROOT=/path/to/code_assets
+```
+
+`attested-http` additionally pins the service identity (fetch `/health` once
+after startup and write the returned identity fields to a JSON file referenced
+by `ZGCM_CODE_EXPECTED_IDENTITY_FILE`). `ZGCM_CODE_MAX_TESTS` (default 8) and
+`ZGCM_CODE_TEST_TIMEOUT_SECONDS` (default 2) bound each verification.
+`ZGCM_CODE_SANDBOX_MODE=open-instruct-http` instead sends the selected tests
+verbatim to an Open-Instruct-compatible `/test_program` (or
+`/test_program_stdio`) endpoint, so any existing sandbox service can be
+reused.
+
+### Instruction-following checkers
+
+The `if` reward needs Open-Instruct's IFEvalG registry and NLTK data:
+
+```bash
+export ZGCM_OPEN_INSTRUCT_ROOT=/path/to/open-instruct
+export ZGCM_OPEN_INSTRUCT_SITE_PACKAGES=/path/to/open-instruct/venv/lib/python3.12/site-packages
+export NLTK_DATA=/path/to/nltk_data
+```
+
+`rewards.ifeval_reward.validate_ifeval_registry` and `ifeval_preflight` can
+pre-check that every instruction id used by the prompt files exists in the
+registry before launch.
 
 ### Evaluation and recovery
 

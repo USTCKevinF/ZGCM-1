@@ -29,8 +29,20 @@ Experiment inputs include:
 - Instruction-following criteria for the corresponding general tasks.
 
 The final math GRPO stage needs only the mathematics verifier shipped in
-`rewards/`; the code/general reward handlers of the internal pipeline are not
-required to reproduce it.
+`rewards/`. Reproducing the mixed-RL code and instruction-following rewards
+additionally requires:
+
+- `requests` for the sandbox HTTP client.
+- A [Open-Instruct](https://github.com/allenai/open-instruct) checkout
+  providing `open_instruct.IFEvalG` (`ZGCM_OPEN_INSTRUCT_ROOT`), plus its
+  Python dependencies on `ZGCM_OPEN_INSTRUCT_SITE_PACKAGES`.
+- NLTK `punkt` and `punkt_tab/english` tokenizers under `NLTK_DATA`.
+- A code sandbox service (see [Experiment Protocol](RUNNING.md#code-sandbox)):
+  either the reference namespace-isolated server in `rewards/` or any
+  Open-Instruct-compatible `test_program` HTTP endpoint.
+
+The general-domain judge of the internal pipeline used an internal service and
+is not redistributed.
 
 Rollouts allow up to 65,536 generated tokens within a 98,304-token total
 prompt–response context. The actor microbatch uses the same token budget.

@@ -5,7 +5,9 @@ general-capability tasks using **Group Relative Policy Optimization (GRPO)**.
 The recipe follows Section 4.2 of the technical report, and this directory
 contains the exact configuration, reward implementation, and training entry
 used for the final math GRPO stage of the released model (run after the DPO
-stage). The training framework is [AReaL](https://github.com/areal-project/AReaL)
+stage), together with the code and instruction-following reward
+implementations used by the mixed-RL experiments. The training framework is
+[AReaL](https://github.com/areal-project/AReaL)
 v2.0.0; see [Environment](ENVIRONMENT.md).
 
 ## Data and rewards
@@ -16,14 +18,37 @@ useful learning signals.
 
 - Mathematics uses binary answer-correctness rewards.
 - Code uses the fraction of executable tests passed.
-- General tasks use correctness or instruction-following criteria.
+- Instruction-following tasks use the fraction of explicit constraints
+  satisfied.
 - Invalid or truncated responses receive no positive reward.
 
-The released `rewards/` package implements the mathematics reward: the visible
-answer is extracted after a closed `</think>` section (`rewards/completion.py`)
-and compared against the gold labels with a math-verify worker
-(`precision=6`, `timeout=8s`, bidirectional equivalence), returning a strictly
-binary `r_raw ∈ {0, 1}`.
+The released `rewards/` package implements the mathematics, code, and
+instruction-following rewards, plus the domain dispatcher used by the mixed-RL
+experiments (`rewards/rewards.py`):
+
+- **Mathematics** (`math_reward.py`): the visible answer is extracted after a
+  closed `</think>` section (`completion.py`) and compared against the gold
+  labels with a math-verify worker (`precision=6`, `timeout=8s`, bidirectional
+  equivalence), returning a strictly binary `r_raw ∈ {0, 1}`.
+- **Code** (`sandbox_client.py`): the visible answer's last fenced Python block
+  is verified against content-hashed test assets inside an isolated execution
+  sandbox, always reached over HTTP; the reward is the fraction of selected
+  tests passed (`task_type` is `code` for function-call tests or `code_stdio`
+  for stdin/stdout comparison). `sandbox_server.py` / `sandbox_runner.py` /
+  `sandbox_rootfs.py` implement the reference sandbox service: a loopback HTTP
+  server that executes each candidate in a user/network/PID namespace, a
+  read-only chroot on tmpfs, with per-test CPU/memory/process/file rlimits, no
+  network egress, and nonce-matched results.
+- **Instruction following** (`ifeval_reward.py`): each prompt carries an
+  `ifeval_spec` of instruction ids and kwargs evaluated with Open-Instruct's
+  IFEvalG checker registry; the reward is the fraction of satisfied
+  constraints, and a checker exception is treated as infrastructure failure
+  rather than a wrong answer.
+
+The general-domain judge of the internal pipeline relied on an internal
+service and is therefore not redistributed; the router raises for unknown
+domains so an unsupported mixture fails loudly instead of silently scoring
+zero.
 
 ### Correct-only length penalty
 
@@ -81,10 +106,15 @@ variant; the final released stage uses the values in the table above.
 ```
 rl/
 ├── configs/math_grpo_length_shaped.yaml   # run config (env-parameterized)
-├── rewards/                               # binary math verifier reward
-│   ├── completion.py                      # visible-answer extraction after </think>
+├── rewards/
+│   ├── completion.py                      # visible-answer + Python-block extraction after </think>
 │   ├── math_reward.py                     # math-verify equivalence reward
-│   └── rewards.py                         # async reward entry used by the workflow
+│   ├── ifeval_reward.py                   # Open-Instruct IFEvalG constraint reward
+│   ├── sandbox_client.py                  # Code reward: HTTP sandbox client + asset hashing
+│   ├── sandbox_server.py                  # reference sandbox service (namespace isolation)
+│   ├── sandbox_runner.py                  # trusted inner runner inside the chroot
+│   ├── sandbox_rootfs.py                  # minimal read-only rootfs builder (tmpfs)
+│   └── rewards.py                         # domain router (math / code / if) + async entry
 └── train/
     └── length_shaped_math_grpo.py         # training entry: workflow + group filter
                                              # + version-anchored evaluation

@@ -98,6 +98,10 @@ entries:
 - `domain: "if"` rows select the IFEvalG reward: `ifeval_spec` lists the
   instruction ids and kwargs checked against the visible answer.
 
+The released training entries each train on a single domain; since the
+router dispatches per row, a custom run can mix these row shapes in one
+JSONL by using a standard AReaL workflow instead.
+
 ### Code sandbox
 
 Code rewards are always computed by an isolated service reached over HTTP;

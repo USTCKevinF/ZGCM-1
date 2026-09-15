@@ -11,6 +11,14 @@ training framework is
 [AReaL](https://github.com/areal-project/AReaL)
 v2.0.0; see [Environment](ENVIRONMENT.md).
 
+In this repository, "mixed RL" refers to the reinforcement-learning program
+spanning the three task domains, not to mixed-domain batches: the released
+stages each train on a single domain, and represent the per-domain
+configurations we found to work well; they share one GRPO recipe skeleton.
+Mixed-domain batches can be composed from the same components — the per-row
+router (`rewards/rewards.py`) dispatches each row to its domain's reward
+under a standard AReaL workflow.
+
 ## Data and rewards
 
 Prompt difficulty is estimated using rollouts from the initial policy. Problems
